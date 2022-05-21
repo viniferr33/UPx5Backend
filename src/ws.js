@@ -5,10 +5,17 @@ function checkFrequency(freq) {
     const today = new Date();
     const now = `${today.getHours()}:${today.getMinutes()}`;
     
-    const weekdays = JSON.parse(JSON.stringify(freq));
-    delete weekdays.time;
+    const weekdays = [
+        'sunday',
+        'monday',
+        'tuesday',
+        'wednesday',
+        'thursday',
+        'friday',
+        'saturday'
+    ]
 
-    return freq[Object.keys(weekdays)[today.getDay()]] && now === freq.time;
+    return freq[weekdays[today.getDay()]] && now === freq.time;
 }
 
 module.exports = async (ws, req) => {
