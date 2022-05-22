@@ -4,7 +4,7 @@ class Feeding {
     async list(req, res) {
         let err;
         try {
-            const data = req.body.id ? await fs.getDoc(`users/${req.body.user}/feeding/${req.body.id}`) : await fs.getCollection(`users/${req.body.user}/feeding`);
+            const data = req.query.id ? await fs.getDoc(`users/${req.query.user}/feeding/${req.query.id}`) : await fs.getCollection(`users/${req.query.user}/feeding`);
             res.status(200).json(data);
         } catch (e) {
             err = e;
@@ -14,7 +14,7 @@ class Feeding {
         } finally {
             await fs.createDoc('log', {
                 url: req.url,
-                body: req.body,
+                body: req.query,
                 datetime: new Date(),
                 message: err ? String(err) : "Okay"
             });
