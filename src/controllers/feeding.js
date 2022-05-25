@@ -48,6 +48,7 @@ class Feeding {
         try {
             const obj = JSON.parse(JSON.stringify(req.body));
             delete obj.user;
+            delete obj.id;
             await fs.updateDoc(`users/${req.body.user}/feeding/${req.body.id}`, obj);
             res.status(200).json({message: "Updated!"});
         } catch (e) {
@@ -67,9 +68,8 @@ class Feeding {
 
     async delete(req, res) {
         let err;
-        const data = req.body ? req.body : req.query;
         try {
-            await fs.deleteDoc(`users/${data.user}/feeding/${data.id}`);
+            await fs.deleteDoc(`users/${req.query.user}/feeding/${req.query.id}`);
             res.status(200).json({message: "Deleted!"});
         } catch (e) {
             err = e;
@@ -79,7 +79,7 @@ class Feeding {
         } finally {
             await fs.createDoc('log', {
                 url: req.url,
-                body: data,
+                body: req.query,
                 datetime: new Date(),
                 message: err ? String(err) : "Okay"
             });
