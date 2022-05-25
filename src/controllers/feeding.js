@@ -69,7 +69,7 @@ class Feeding {
     async delete(req, res) {
         let err;
         try {
-            await fs.deleteDoc(`users/${req.query.user}/feeding/${req.query.id}`);
+            await fs.deleteDoc(`users/${req.query.username}/feeding/${req.query.id}`);
             res.status(200).json({message: "Deleted!"});
         } catch (e) {
             err = e;
